@@ -33,7 +33,7 @@ namespace DeepFire {
       }
 
       LossLayer& loss_layer() {
-	return static_cast<LossLayer>(layers.back());
+	return *static_cast<LossLayer*>(&(*layers.back()));
       }
      
     protected:
