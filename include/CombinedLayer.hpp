@@ -24,18 +24,18 @@ namespace DeepFire {
     virtual inline af::array forward_prop(const af::array& in) {
       return l2.forward_prop(l1.forward_prop(in));
     }
-    virtual inline af::array backward_prop(const af::array& in,const ArrayRef& weightgrad) {
-      ArrayRef l1grad=weightgrad(af::seq(0,l1.num_weights-1));
-      ArrayRef l2grad=weightgrad(af::seq(l1.num_weights,num_weights-1));
-      af::array a=l2.backward_prop(in,l2grad);
-      return l1.backward_prop(a,l1grad);
+    virtual inline af::array backward_prop(const af::array& in) {
+      return l1.backward_prop(l2.backward_prop(a));
     }
-    virtual inline void use_weights(ArrayRef weights) {
+    virtual inline void use_weights(ArrayRef weights, ArrayRef grad) {
       ArrayRef l1weights=weights(af::seq(0,l1.num_weights-1));
       ArrayRef l2weights=weights(af::seq(0,l2.num_weights-1));
 
-      l1.use_weights(l1weights);
-      l2.use_weights(l2weights);
+      ArrayRef l1grad=grad(af::seq(0,l1.num_weights-1));
+      ArrayRef l2grad=grad(af::seq(0,l2.num_weights-1));
+
+      l1.use_weights(l1weights,l1grad);
+      l2.use_weights(l2weights,l2grad);
     }
   protected:
     void set_num_weights() {
