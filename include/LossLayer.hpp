@@ -6,24 +6,23 @@
 #include "Util.hpp"
 
 namespace DeepFire {
-  namespace Loss {
+  class LossLayer : public Layer {
+  public:
+    LossLayer(const af::dim4& dim): Layer(dim, af::dim4(1)) {}
+    //Output scalar type
+    virtual af::array forward_prop(const af::array& in)=0;
 
-    class LossLayer : public Layer {
-    public:
-      LossLayer(const af::dim4& dim): Layer(dim, af::dim4(1)) {}
-      //Output scalar type
-      virtual af::array forward_prop(const af::array& in)=0;
-
-      virtual inline af::array backward_prop(const af::array& in) {
-	return backward_prop();
-      }
+    virtual inline af::array backward_prop(const af::array& in) {
+      return backward_prop();
+    }
       
-      virtual af::array backward_prop()=0;
+    virtual af::array backward_prop()=0;
 
-      virtual bool loss_layer() { return true; }
-      virtual void use_labels(const af::array& labels) =0;
-    };
-    
+    virtual bool loss_layer() { return true; }
+    virtual void use_labels(const af::array& labels) =0;
+  };
+
+  namespace Loss {    
     class MSE : public LossLayer {
     public:
       MSE(const af::dim4& dims) : LossLayer(dims) {}
@@ -49,7 +48,7 @@ namespace DeepFire {
     public:
       CrossEntropy(const af::dim4& dim) : LossLayer(dim) {
 	num_classes=nelements_batch(dim);
-	}
+      }
       virtual inline af::array forward_prop(const af::array& in) {
 	af::array flattened=flat_batch(in).T();
 	num_samples=flattened.dims(1);
