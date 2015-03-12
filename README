@@ -1,0 +1,3 @@
+Notes on implementation:
+
+Data is passed between layers as an af::array.  Doing sample-wise processing is too slow, so everything works with batches.  So we use the first dimension of the array to represent the different samples in the batch. Since the input and output size of layers should be independent of the batch size, we use a dim4 to represent the dimension of the data, but the first dimension is just ignored.
