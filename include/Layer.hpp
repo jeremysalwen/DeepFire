@@ -12,7 +12,7 @@ namespace DeepFire {
    *
    */
   class Layer {
-    friend class Initializer<Layer>;
+    friend class Initialization<Layer>;
   public:
     af::dim4 in_dim;
     af::dim4 out_dim;

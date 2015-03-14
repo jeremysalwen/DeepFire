@@ -7,6 +7,7 @@
 namespace DeepFire {
   namespace Optim {
     class Optimizable {
+    public:
       /*
        * Returns a reference to the weights that are to be optimized.
        */
@@ -24,7 +25,7 @@ namespace DeepFire {
     };
     
     class GradientOptimizable : public Optimizable {
-
+    public:
       /*
        * Evaluates the gradient of the loss  WRT the weights using 
        * the last Batch passed to use_batch.
@@ -34,12 +35,14 @@ namespace DeepFire {
        */
       virtual const af::array& grad()=0;
     };
+
     
     /* 
      * Hessian-Vector-Product optimizable.
      * This can also use an approximation of the Hessian instead of the actual Hessian matrix.
      */
     class HVPOptimizable : public GradientOptimizable {
+    public:
       virtual af::array& HVP(const af::array vec)=0;
     };
   }

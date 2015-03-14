@@ -12,12 +12,14 @@ namespace DeepFire {
   namespace NN {
     class FeedForward : public NeuralNetwork {
     public:
+      virtual void allocate_memory();
+      virtual bool validate();
+
+      virtual void use_batch(Batch b);
       
-      af::array forward_prop();
-      void backward_prop();
-      void allocate_memory();
-     
-      bool validate();
+      virtual af::array loss();
+      virtual const af::array& grad();
+           
       /*
        * These function add layers on to the end of the network
        */
@@ -33,11 +35,11 @@ namespace DeepFire {
       LossLayer& loss_layer() {
 	return *static_cast<LossLayer*>(&(*layers.back()));
       }
-     
+
     protected:
-      Batch batch;
-      af::array dropout_mask;
-    };
+      af::array g;
+     
+     };
   }
 }
 

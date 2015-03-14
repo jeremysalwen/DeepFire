@@ -1,7 +1,7 @@
 #ifndef INITIALIZATION_H
 #define INITIALIZATION_H
 
-#include <arrayfire>
+#include <arrayfire.h>
 
 namespace DeepFire {
 
@@ -12,9 +12,8 @@ namespace DeepFire {
   class Initialization {
   public:
     virtual void initialize(C* object)=0;
-  }
+  };
 
-    class 
 }
 
 #endif /* INITIALIZATION_H */

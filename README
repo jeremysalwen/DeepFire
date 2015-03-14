@@ -1,3 +1,21 @@
 Notes on implementation:
 
 Data is passed between layers as an af::array.  Doing sample-wise processing is too slow, so everything works with batches.  So we use the first dimension of the array to represent the different samples in the batch. Since the input and output size of layers should be independent of the batch size, we use a dim4 to represent the dimension of the data, but the first dimension is just ignored.
+
+TODO:
+
+***Implement dropout/dropconnect in a way that is fast, generally applicable, but not overly ubiquitious.
+
+On a neural network, it doesn't take any understanding of the structure to apply dropconnect to the weights for training.  For vanilla dropout, it does take some understanding.
+
+For both of them, you can also be /almost/ oblivous to how it was trained at test time.  You still need to scale the inputs down by 1/2 though (or whatever the dropout factor was).  However dropconnect introduces a new way of calculating the output values that supposedly gets better results by doing a better job of approximating the "averaging of networks" model.
+
+
+So essentially the dropout code has to be decently coupled with the network structure.  However, this coupling would naively mean calculating the mask values independently from each other.  I think this is bad for performance reasons (it's a lot of random values we are generating, so we want to do them all at once in a matrix).  The original dropconnect folks even generated them in bitpacked form, although I don't know how that will work with ArrayFire without a custom kernel.
+
+We also want things to be simple to use if you don't enable dropout.
+
+Also, dropout is a form of regularization.  Should it fit into a similar interface to regularizers like L2 norm??
+
+
+***What about somehow displaying something while training.  That would be pretty cool, but I don't know if it's worth adding hooks to the optimizers.  Perhaps the optimizer is itself responsible for the display of information, as it knows what information should be displayed.
