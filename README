@@ -1,3 +1,16 @@
+This is a Deep Learning library using ArrayFire.
+
+Hopes to cover:
+
+Every variety of neural networks (feedforward, recursive, autoencoders, etc)
+Maybe some stuff like RBMS?
+As many training algorithms as possible (SGD and variations, HF and variations, linesearch techniques, minfunc)
+
+Not complete though.  Please leave any feedback you have in the issue tracker (does not have to be a bug or feature request).
+
+-Jeremy
+
+
 Notes on implementation:
 
 Data is passed between layers as an af::array.  Doing sample-wise processing is too slow, so everything works with batches.  So we use the first dimension of the array to represent the different samples in the batch. Since the input and output size of layers should be independent of the batch size, we use a dim4 to represent the dimension of the data, but the first dimension is just ignored.
@@ -18,4 +31,5 @@ We also want things to be simple to use if you don't enable dropout.
 Also, dropout is a form of regularization.  Should it fit into a similar interface to regularizers like L2 norm??
 
 
-***What about somehow displaying something while training.  That would be pretty cool, but I don't know if it's worth adding hooks to the optimizers.  Perhaps the optimizer is itself responsible for the display of information, as it knows what information should be displayed.
+ ***What about somehow displaying something while training.  That would be pretty cool, but I don't know if it's worth adding hooks to the optimizers.  Perhaps the optimizer is itself responsible for the display of information, as it knows what information should be displayed.
+
