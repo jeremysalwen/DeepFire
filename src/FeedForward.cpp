@@ -22,6 +22,7 @@ namespace DeepFire {
       }
       return true;
     }
+    
     void FeedForward::add_layer(std::unique_ptr<Layer> l) {
       layers.push_back(std::move(l));
     }
@@ -33,9 +34,18 @@ namespace DeepFire {
       }
       w=af::array(num_weights);
       g=af::array(num_weights);
-      
+
+      dim_type i=0;
+      for(auto& L: layers) {
+	dim_type num_weights=L->num_weights;
+	af::seq ind(i,i+num_weights-1);
+	af::dim4 dim(1,num_weights);
+	ArrayRef wref(w,ind,dim);
+	ArrayRef gref(g,ind,dim);
+	L->use_weights(wref,gref);
+      }
     }
-    
+
     void FeedForward::use_batch(Batch b) {
       batch=b;
       layers.back()->use_labels(b.label);  
