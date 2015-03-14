@@ -7,24 +7,22 @@
 #include "Layer.hpp"
 #include "Batch.hpp"
 #include "LossLayer.hpp"
-
+#include "NeuralNetwork.hpp"
 namespace DeepFire {
   namespace NN {
-    class FeedForward {
+    class FeedForward : public NeuralNetwork {
     public:
-      dim_type num_weights;
-
-      void use_batch(Batch b);
       
       af::array forward_prop();
       void backward_prop();
       void allocate_memory();
      
       bool validate();
-      
+      /*
+       * These function add layers on to the end of the network
+       */
       void add_layer(std::unique_ptr<Layer> l);
-      
-      
+
       template<class C, typename... Params>
       C& construct_layer(Params... params) {
 	af::dim4& in_dim=layers.back()->out_dim;
@@ -39,8 +37,6 @@ namespace DeepFire {
     protected:
       Batch batch;
       af::array dropout_mask;
-      af::array weights;
-      std::vector<std::unique_ptr<Layer>> layers;
     };
   }
 }

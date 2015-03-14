@@ -3,6 +3,7 @@
 
 #include <arrayfire.h>
 #include "ArrayRef.hpp"
+#include "Initialization.hpp"
 
 namespace DeepFire {
 
@@ -11,6 +12,7 @@ namespace DeepFire {
    *
    */
   class Layer {
+    friend class Initializer<Layer>;
   public:
     af::dim4 in_dim;
     af::dim4 out_dim;
