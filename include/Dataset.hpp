@@ -5,14 +5,17 @@
 
 #include "Batch.hpp"
 namespace DeepFire {
-  /*
-   * It's up to the implementation of the Dataset to decide what order to provide the samples.
-   * This may change in the future.
-   */
+
   class Dataset {
   public:
     virtual dim_type size()=0;
-    virtual Batch sample(dim_type num_samples)=0;
+
+    virtual void shuffle()=0;
+
+    virtual Batch sample_random(dim_type num_samples)=0;
+    virtual Batch sample_sequential(dim_type num_samples)=0;
+
+    virtual void reset_sequence()=0;
   };
 }
 
