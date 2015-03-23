@@ -5,7 +5,7 @@ namespace DeepFire {
   namespace Optim {
 
     void MomentumOptimizer::reset_training() {
-      m=af::constant(0.0,o.weights().dims(),af::dtype::f64);
+      m=af::constant(0.0,optim->weights().dims(),af::dtype::f64);
     }
 
     void MomentumOptimizer::set_optimizable(GradientOptimizable& o) {
