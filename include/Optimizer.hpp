@@ -15,6 +15,11 @@ namespace DeepFire {
       virtual void set_train_dataset(Dataset& d)=0;
 
       virtual void set_devel_dataset(Dataset& d) {};
+
+      /*
+       * This only resets internal variables, but keeps the dataset an optimizable the same
+       */
+      virtual void reset_training()=0;
       
       /*
        * Reurns the number of iterations performed (if it's less than input, it converged)
@@ -25,10 +30,17 @@ namespace DeepFire {
     class GradientOptimizer : HVPOptimizer{
     public:
       virtual void set_optimizable(GradientOptimizable& opt);
+      virtual void set_optimizable(HVPOptimizable& opt) {
+	set_optimizable(static_cast<GradientOptimizable&>(opt));
+      }
     };
 
     class Optimizer : GradientOptimizer {
+   
       virtual void set_optimizable(Optimizable& opt) =0;
+      virtual void set_optimizable(GradientOptimizable& opt) {
+	set_optimizable(static_cast<Optimizable&>(opt));
+      }
     };
   }
 }
