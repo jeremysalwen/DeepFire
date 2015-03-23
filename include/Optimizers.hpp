@@ -1,7 +1,7 @@
 #ifndef OPTIMIZERS_H
 #define OPTIMIZERS_H
 
-#include <arrayfire>
+#include <arrayfire.h>
 #include "Optimizer.hpp"
 
 namespace DeepFire {
