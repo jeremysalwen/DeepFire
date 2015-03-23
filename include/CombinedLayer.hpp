@@ -25,7 +25,7 @@ namespace DeepFire {
       return l2.forward_prop(l1.forward_prop(in));
     }
     virtual inline af::array backward_prop(const af::array& in) {
-      return l1.backward_prop(l2.backward_prop(a));
+      return l1.backward_prop(l2.backward_prop(in));
     }
     virtual inline void use_weights(ArrayRef weights, ArrayRef grad) {
       ArrayRef l1weights=weights(af::seq(0,l1.num_weights-1));
