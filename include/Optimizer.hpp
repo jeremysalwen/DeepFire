@@ -10,7 +10,7 @@ namespace DeepFire {
   namespace Optim {
     class HVPOptimizer{
     public:
-      virtual void set_optimizable(HVPOptimizable& opt)=0;
+      virtual void set_optimizableH(HVPOptimizable& opt)=0;
 
       virtual void set_train_dataset(Dataset& d)=0;
 
@@ -28,19 +28,21 @@ namespace DeepFire {
     };
 
     class GradientOptimizer : HVPOptimizer{
-    public:
-      virtual void set_optimizable(GradientOptimizable& opt);
-      virtual void set_optimizable(HVPOptimizable& opt) {
-	set_optimizable(static_cast<GradientOptimizable&>(opt));
+    public:  
+      virtual void set_optimizableH(HVPOptimizable& opt) {
+	set_optimizableG(static_cast<GradientOptimizable&>(opt));
       }
+      virtual void set_optimizableG(GradientOptimizable& opt)=0;
     };
 
     class Optimizer : GradientOptimizer {
-   
-      virtual void set_optimizable(Optimizable& opt) =0;
-      virtual void set_optimizable(GradientOptimizable& opt) {
-	set_optimizable(static_cast<Optimizable&>(opt));
+    public:
+      virtual void set_optimizableG(GradientOptimizable& opt) {
+	set_optimizableV(static_cast<Optimizable&>(opt));
       }
+
+      virtual void set_optimizableV(Optimizable& opt) =0;
+
     };
   }
 }

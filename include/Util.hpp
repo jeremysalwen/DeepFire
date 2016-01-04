@@ -2,6 +2,8 @@
 #define UTIL_H
 
 #include <arrayfire.h>
+#include <memory>
+
 /*
  *  These functions operate on arrays of samples /ignoring/ the first dimension.
  */
@@ -23,5 +25,6 @@ inline af::array moddim_batch(const af::array& A, af::dim4 dim) {
 inline bool dim_eq_batch(const af::dim4& dim1, const af::dim4& dim2) {
   return dim1[1]==dim2[1] && dim1[2]==dim2[2] && dim1[3]==dim2[3];
 }
+
 
 #endif /* UTIL_H */

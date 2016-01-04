@@ -28,8 +28,9 @@ namespace DeepFire {
       template<class C, typename... Params>
       C& construct_layer(Params... params) {
 	af::dim4& in_dim=layers.back()->out_dim;
-	layers.push_back(std::unique_ptr<C>(new C(in_dim, params...)));
-	return *layers.back();
+	C* layer=new C(in_dim, params...);
+	layers.push_back(std::unique_ptr<Layer>(layer));
+	return *layer;
       }
 
       LossLayer& loss_layer() {

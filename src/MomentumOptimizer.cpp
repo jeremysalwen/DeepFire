@@ -8,7 +8,7 @@ namespace DeepFire {
       m=af::constant(0.0,optim->weights().dims(),af::dtype::f64);
     }
 
-    void MomentumOptimizer::set_optimizable(GradientOptimizable& o) {
+    void MomentumOptimizer::set_optimizableG(GradientOptimizable& o) {
       optim=&o;
       reset_training();
     }
@@ -16,7 +16,7 @@ namespace DeepFire {
     int MomentumOptimizer::optimize(int iterations) {
       af::array& weights=optim->weights();
       for (int i=0; i < iterations; i++) {
-	Batch b=dataset->sample_random(batch_size);
+	Batch b=train_dataset->sample_random(batch_size);
 	optim->use_batch(b);
 	
 	{

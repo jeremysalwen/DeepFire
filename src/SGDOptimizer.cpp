@@ -9,7 +9,7 @@ namespace DeepFire {
     int SGDOptimizer::optimize(int iterations) {
       af::array& weights=optim->weights();
       for (int i=0; i < iterations; i++) {
-	Batch b=dataset->sample_random(batch_size);
+	Batch b=train_dataset->sample_random(batch_size);
 	optim->use_batch(b);
 
 	{

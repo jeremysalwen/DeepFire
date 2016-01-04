@@ -35,7 +35,7 @@ namespace DeepFire {
       virtual inline af::array backward_prop() {
 	return moddim_batch(2*last_err,in_dim);
       }
-      virtual inline void use_labels(af::array& l) {
+      virtual inline void use_labels(const af::array& l) {
 	labels=flat_batch(l);
       }
     protected:
@@ -59,7 +59,7 @@ namespace DeepFire {
 	arr(labels)=-1;
 	return arr;
       }
-      virtual inline void use_labels(af::array& l) {
+      virtual inline void use_labels(const af::array& l) {
 	labels=flat_batch(l);
       }
     protected:

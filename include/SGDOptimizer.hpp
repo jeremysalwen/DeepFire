@@ -6,25 +6,26 @@
 namespace DeepFire {
   namespace Optim {
     
-    class SGDOptimizer : Optimizer {
+    class SGDOptimizer : GradientOptimizer {
     public:
       SGDOptimizer(dim_type batch_size, double learning_rate=0.001, double decay=1) :
 	batch_size(batch_size),
 	learning_rate(learning_rate),
 	decay(decay),
 	optim(NULL),
-	dataset(NULL) {
+	train_dataset(NULL) {
 	
 	assert(learning_rate>0);
 	assert(decay>0);
       }
       
-      virtual void set_optimizable(GradientOptimizable& o) {
+      virtual void set_optimizableG(GradientOptimizable& o) {
 	optim=&o;
+	reset_training();
       }
       
       virtual void set_train_dataset(Dataset& d) {
-	dataset=&d;
+	train_dataset=&d;
       }
 
       virtual void reset_training();
@@ -37,7 +38,7 @@ namespace DeepFire {
       
     protected:
       GradientOptimizable* optim;
-      Dataset* dataset;
+      Dataset *train_dataset ;
       double cur_rate;
 
     };

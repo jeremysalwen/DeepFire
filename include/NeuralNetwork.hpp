@@ -8,8 +8,7 @@
 #include "Initialization.hpp"
 
 namespace DeepFire {
-  class NeuralNetwork : Optim::GradientOptimizable {
-    friend class Initialization<NeuralNetwork>;
+  class NeuralNetwork : public Optim::GradientOptimizable {
     
   public:
     /*

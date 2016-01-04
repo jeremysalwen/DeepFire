@@ -12,13 +12,15 @@ namespace DeepFire {
    *
    */
   class Layer {
-    friend class Initialization<Layer>;
-  public:
+   public:
     af::dim4 in_dim;
     af::dim4 out_dim;
 
     int num_weights;
 
+    ArrayRef weights, grad;
+    ArrayRef dropout_mask;
+    
     Layer(const af::dim4& dim) :in_dim(dim), out_dim(dim),num_weights(0) {}
     Layer(const af::dim4 in_dim, const af::dim4& out_dim, int num_weights=0) :in_dim(out_dim), out_dim(out_dim),num_weights(num_weights) {}
 
@@ -27,8 +29,8 @@ namespace DeepFire {
      * store its optimizable weights.  It should store num_weights elements.
      */
     
-    virtual void use_dropout_mask(ArrayRef ref) {}
-    virtual void use_weights(ArrayRef weights, ArrayRef grad) {}
+    virtual void use_dropout_mask(ArrayRef ref) { dropout_mask=ref;}
+    virtual void use_weights(ArrayRef weights, ArrayRef grad) {this->weights=weights; this->grad=grad;}
     
     /*
      * Note that backward_prop should be called after forward_prop, and it 
@@ -43,10 +45,12 @@ namespace DeepFire {
     //By default a layer should not
     virtual bool loss_layer() { return false; }
     virtual void use_labels(const af::array& labels) {}
+
   };
 
-  class FlatLayer : Layer {
+  class FlatLayer : public Layer {
     
   };
 }
 #endif
+

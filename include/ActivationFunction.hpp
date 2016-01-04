@@ -8,14 +8,14 @@
 namespace DeepFire {
   namespace Activation {
     
-    class Sigmoid : Layer {
+    class Sigmoid : public Layer {
     public:
       Sigmoid(const af::dim4& dim) : Layer(dim) {}
       virtual inline  af::array forward_prop(const af::array& in) {
 	last_output=1/(1+af::exp(in));
 	return last_output;
       }
-      virtual inline af::array backward(const af::array& gradin) {
+      virtual inline af::array backward_prop(const af::array& gradin) {
 	return gradin*last_output*(1-last_output);
       }
     protected:

@@ -14,29 +14,30 @@ namespace DeepFire {
 	momentum(momentum),
 	nesterov(nesterov),
 	optim(NULL),
-	dataset(NULL) {
+	train_dataset(NULL) {
 	assert(learning_rate>0);
 	assert(momentum>0);
       }
       
-      virtual void set_optimizable(GradientOptimizable& o); 
+      virtual void set_optimizableG(GradientOptimizable& o); 
+      
+      virtual void set_train_dataset(Dataset& d) {
+	train_dataset=&d;
+      }
 
-	virtual void set_train_dataset(Dataset& d) {
-	  dataset=&d;
-	}
-
-	virtual void reset_training();
-	virtual int optimize(int iterations);
-
+      
+      virtual void reset_training();
+      virtual int optimize(int iterations);
+      
 
 	dim_type batch_size;
 	double learning_rate;
 	double momentum;
 	bool nesterov;
-      protected:
-	GradientOptimizable* optim;
-	Dataset* dataset;
-	af::array m;
+    protected:
+      GradientOptimizable* optim;
+      Dataset* train_dataset;
+      af::array m;
 
       };
       
